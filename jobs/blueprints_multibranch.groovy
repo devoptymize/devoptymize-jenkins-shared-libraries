@@ -4,7 +4,7 @@ multibranchPipelineJob("${PROJECT_NAME}_BluePrint_Multibranch") {
             source {
                 git {
                     id('123456656789')
-                    remote('https://github.com/devoptymize/devoptymize-jenkins-pipelines.git')
+                    remote('https://gitlab.cloudifyops.com/devoptymize_infrastructure/devoptymize_jenkins_pipelines.git')
                     credentialsId('devoptymize')
                     traits {
                         gitBranchDiscovery()

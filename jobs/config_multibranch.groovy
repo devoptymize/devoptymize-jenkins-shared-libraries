@@ -4,7 +4,7 @@ multibranchPipelineJob("${PROJECT_NAME}_Config_Multibranch") {
             source {
                 git {
                     id('12113456788')
-                    remote('https://github.com/devoptymize/devoptymize-jenkins-pipelines.git')
+                    remote('https://gitlab.cloudifyops.com/devoptymize_infrastructure/devoptymize_jenkins_config.git')
                     credentialsId('devoptymize')
                     traits {
                         gitBranchDiscovery()

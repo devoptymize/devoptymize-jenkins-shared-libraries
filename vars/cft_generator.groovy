@@ -36,6 +36,26 @@ def generate_var(Map params, String path) {
       println ((entry.key).toLowerCase()+": "+'"'+outputString+'"')   
       file.append(((entry.key).toLowerCase()+": "+'"'+outputString+'"')+"\n")
     }
+// The below if condition is to generate a string from list of string in case of Instance-schedular
+    else if((entry.key).equals("INSTANCE_IDS") && (entry.value).contains(match)){
+      def inputString = entry.value
+      def cleanedString = inputString.replaceAll("[\\[\\]\"\\*\\.]", "")
+      def subnetList = cleanedString.split(",").collect { it.trim() }
+      def outputString = subnetList.join(", ")
+      println outputString
+      println ((entry.key).toLowerCase()+": "+'"'+outputString+'"')   
+      file.append(((entry.key).toLowerCase()+": "+'"'+outputString+'"')+"\n")
+    }
+// The below if condition is to enclose a cron-job within '' for Instance-schedular
+    else if((entry.key).equals("START_JOB") || (entry.key).equals("STOP_JOB")){
+      def inputString = entry.value
+      def cleanedString = inputString.replaceAll("[\\[\\]\"\\.]", "")
+      def subnetList = cleanedString.split(",").collect { it.trim() }
+      def outputString = subnetList.join(", ")
+      println outputString
+      println ((entry.key).toLowerCase()+": "+"'"+outputString+"'")   
+      file.append(((entry.key).toLowerCase()+": "+"'"+outputString+"'")+"\n")
+    }
     // The below if condition is to generate a empty list when the user doesnt select any security group or volume in launch template pipeline.
     else if((entry.key).equals("SECURITY_GROUP_ID") || (entry.key).equals("VOLUME_SIZE") || (entry.key).equals("SUBNET_ID") || (entry.key).equals("CERTIFICATE_NAME") ){
         if((entry.key).equals("SECURITY_GROUP_ID") && (entry.value).equals("") || (entry.key).equals("VOLUME_SIZE") && (entry.value).equals("") || (entry.key).equals("SUBNET_ID") && (entry.value).equals("") || (entry.key).equals("CERTIFICATE_NAME") && (entry.value).equals("") ){

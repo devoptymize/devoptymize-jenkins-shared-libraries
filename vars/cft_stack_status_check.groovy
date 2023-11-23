@@ -20,12 +20,22 @@ def call(){
             stack_info=$(aws cloudformation describe-stacks --stack-name $ENVIRONMENT-$resource_name-$resource --region $aws_region 2>&1) || true
             if [ "$status" = "CREATE_COMPLETE" ]; then
                 echo "Stack creation completed. Current status: $status"
+    
+            elif [ "$status" == "DELETE_COMPLETE" ]; then
+                echo "Stack deletion completed. Current status: $status"
+
+            elif [ "$status" == "CREATE_FAILED" ] || [ "$status" == "ROLLBACK_COMPLETE" ] || [ "$status" == "ROLLBACK_IN_PROGRESS" ] || [ "$status" == "DELETE_FAILED" ]; then  
+                echo "Stack creation failed. Current status: $status"
+                exit 1
+
             elif [ "$stack_info" != *"Stack with id mystack does not exist"* ]; then
                 echo "Stack deletion completed || stack doesn't exist. Current status: $status"
+
             else
                 echo "Unknown status: $status"
                 exit 1
             fi
+
         }
         echo "checking status of stack creation......."
         wait_for_stack_creation

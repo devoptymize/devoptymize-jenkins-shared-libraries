@@ -52,7 +52,7 @@ def env_dir(String resource) {
 def call() {
     script{
         dir ("terraform") {
-            child_clone(this,"<child-repo-url-goes-here>","main","devoptymize")
+            child_clone(this,"https://gitlab.cloudifyops.com/ops_devoptymize/ops_terraform_templates.git","main","devoptymize")
             // check resource dir exist or not 
             f = sh(script: "test -d child/services/${env.resource} && echo '1' || echo '0' ", returnStdout: true).trim()
             if(f=='1'){
@@ -60,7 +60,7 @@ def call() {
                 env_dir("${env.resource}")
             }
             else {
-                devoptymize_clone(this,"https://github.com/devoptymize/devoptymize-cloudformation-templates.git","main","devoptymize")
+                devoptymize_clone(this,"https://gitlab.cloudifyops.com/devoptymize_infrastructure/devoptymize_terraform_templates.git","main","devoptymize")
                 copy("${env.resource}")
                 env_dir("${env.resource}")
             }
